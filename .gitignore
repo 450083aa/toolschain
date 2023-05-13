@@ -1,0 +1,6 @@
+release/bin
+node_modules
+template/dist
+package.json.md5
+package-lock.json
+yarn.lock

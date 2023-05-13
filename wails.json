@@ -1,0 +1,23 @@
+{
+    "$schema": "https://wails.io/schemas/config.v2.json",
+    "name": "GeekStudio",
+    "outputfilename": "GeekStudio",
+    "build:dir": "release",
+    "wailsjsdir": "template/src/package",
+    "frontend:dir": "template",
+    "frontend:install": "yarn",
+    "frontend:build": "yarn build",
+    "frontend:dev:watcher": "yarn dev",
+    "frontend:dev:serverUrl": "auto",
+    "author": {
+        "name": "GEEKROS",
+        "email": "admin@wileho.com"
+    },
+    "info": {
+        "companyName": "GEEKROS",
+        "productName": "GeekStudio",
+        "productVersion": "1.0.0",
+        "copyright": "Copyright © 2019-2022 GEEKROS All Rights Reserved",
+        "comments": "GEEKROS (https://www.geekros.com)"
+    }
+}

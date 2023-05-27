@@ -1,21 +1,26 @@
+/**
+ ******************************************************************************
+ * @file    framework.go
+ * @author  GEEKROS site:www.geekros.com github:geekros.github.io
+ ******************************************************************************
+ */
+
 package Framework
 
 import (
 	"embed"
 	"fmt"
-	"geekstudio/framework/windows/start"
 	"github.com/gookit/color"
 	"github.com/wailsapp/wails/v2"
 	"github.com/wailsapp/wails/v2/pkg/options"
 	"github.com/wailsapp/wails/v2/pkg/options/assetserver"
 	"github.com/wailsapp/wails/v2/pkg/options/windows"
-	"net/http"
+	"toolschain/framework/windows/start"
 )
 
-func Init(template embed.FS, service *http.Server) {
+func Init(template embed.FS) {
 
 	start := StartWindows.Init()
-	start.Service = service
 
 	err := wails.Run(&options.App{
 		Title:     "",
@@ -56,6 +61,6 @@ func Init(template embed.FS, service *http.Server) {
 	})
 
 	if err != nil {
-		fmt.Println("[geekstudio][framework]：" + color.Gray.Text(err.Error()))
+		fmt.Println("[toolschain][framework]：" + color.Gray.Text(err.Error()))
 	}
 }

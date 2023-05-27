@@ -1,7 +1,7 @@
 {
     "$schema": "https://wails.io/schemas/config.v2.json",
-    "name": "GeekStudio",
-    "outputfilename": "GeekStudio",
+    "name": "ToolsChain",
+    "outputfilename": "ToolsChain",
     "build:dir": "release",
     "wailsjsdir": "template/src/package",
     "frontend:dir": "template",
@@ -15,7 +15,7 @@
     },
     "info": {
         "companyName": "GEEKROS",
-        "productName": "GeekStudio",
+        "productName": "ToolsChain",
         "productVersion": "1.0.0",
         "copyright": "Copyright © 2019-2022 GEEKROS All Rights Reserved",
         "comments": "GEEKROS (https://www.geekros.com)"

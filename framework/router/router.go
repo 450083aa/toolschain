@@ -1,14 +1,17 @@
+/**
+ ******************************************************************************
+ * @file    router.go
+ * @author  GEEKROS site:www.geekros.com github:geekros.github.io
+ ******************************************************************************
+ */
+
 package Router
 
 import (
-	"geekstudio/framework/config"
-	"geekstudio/framework/router/index"
-	"geekstudio/framework/router/tools"
 	"github.com/gin-gonic/gin"
 	"net/http"
 )
 
-// Init 路由初始化函数
 func Init() http.Handler {
 
 	router := gin.New()
@@ -16,12 +19,6 @@ func Init() http.Handler {
 	gin.SetMode(gin.ReleaseMode)
 
 	router.Use(Cors())
-
-	router.GET("/", IndexRouter.Index)
-
-	router.Any("/terminal", TerminalRouter.Terminal)
-
-	router.Static("/path", Config.Get.Path)
 
 	return router
 }

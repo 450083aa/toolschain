@@ -1,5 +1,5 @@
 import {createApp} from "vue";
-import App from "./App.vue";
+import App from "./app.vue";
 import {router} from "./router";
 import ElementPlus from "element-plus";
 import "element-plus/dist/index.css";
@@ -15,7 +15,6 @@ for (const [key, component] of Object.entries(ElIcons)) {
 
 app.use(router);
 
-// 监听元素尺寸变化自定义事件
 app.directive("resize", {
     mounted(el, binding) {
         let _this: any = this;

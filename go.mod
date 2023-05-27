@@ -1,14 +1,11 @@
-module geekstudio
+module toolschain
 
 go 1.18
 
 require (
-	github.com/fsnotify/fsnotify v1.4.9
 	github.com/gin-gonic/gin v1.8.2
 	github.com/gookit/color v1.5.2
-	github.com/gorilla/websocket v1.5.0
-	github.com/wailsapp/wails/v2 v2.3.1
-	golang.org/x/sys v0.3.0
+	github.com/wailsapp/wails/v2 v2.5.1
 )
 
 require (
@@ -21,7 +18,6 @@ require (
 	github.com/goccy/go-json v0.9.11 // indirect
 	github.com/google/go-cmp v0.5.9 // indirect
 	github.com/google/uuid v1.3.0 // indirect
-	github.com/imdario/mergo v0.3.12 // indirect
 	github.com/jchv/go-winloader v0.0.0-20210711035445-715c2860da7e // indirect
 	github.com/json-iterator/go v1.1.12 // indirect
 	github.com/labstack/echo/v4 v4.9.0 // indirect
@@ -46,8 +42,9 @@ require (
 	github.com/xo/terminfo v0.0.0-20210125001918-ca9a967f8778 // indirect
 	golang.org/x/crypto v0.3.0 // indirect
 	golang.org/x/exp v0.0.0-20220722155223-a9213eeb770e // indirect
-	golang.org/x/net v0.4.0 // indirect
-	golang.org/x/text v0.5.0 // indirect
+	golang.org/x/net v0.7.0 // indirect
+	golang.org/x/sys v0.5.0 // indirect
+	golang.org/x/text v0.7.0 // indirect
 	google.golang.org/protobuf v1.28.1 // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect
 )

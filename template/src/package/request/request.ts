@@ -23,35 +23,12 @@ request.interceptors.response.use(
     }
 );
 
-export function api(path: string, method: string, params: object, data: object) {
-
-    let U_Token:any = localStorage.getItem("u_token") ? localStorage.getItem("u_token") : "";
-    let C_Token:any = localStorage.getItem("c_token") ? localStorage.getItem("c_token") : "";
+export function Device(host: any, path: string, method: string, params: object, data: object) {
 
     return request({
-        baseURL: "http://127.0.0.1:10081",
+        baseURL: "http://" + host + ":10081",
         headers: {
-            "Content-Type": "application/json",
-            "C-Token": C_Token,
-            "U-Token": U_Token
-        },
-        url: path,
-        method: method,
-        params: params ? params : {},
-        data: data ? data : {}
-    });
-}
-
-export function Service(path: string, method: string, params: object, data: object) {
-
-    let U_Token:any = localStorage.getItem("studio:account:token") ? localStorage.getItem("studio:account:token") : "";
-
-    return request({
-        baseURL: "https://api.geekros.com",
-        headers: {
-            "Content-Type": "application/json",
-            "C-Token": "8vG9YJxk1B7LoOZQKlejN9y5Eo0ZaqJrdx4MVjJBqZa0Nw41Yd5kWGMz87rpAQDALSBB1pnomOgVb9XQLxPDlAvyKE6egwD8WLO1AknmzGPvY7X6BbNa4jgMbwq6QE5P",
-            "U-Token": U_Token
+            "Content-Type": "application/json"
         },
         url: path,
         method: method,

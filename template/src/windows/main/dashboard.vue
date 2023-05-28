@@ -1,7 +1,7 @@
 <template>
     <div class="dashboard-view">
         <div class="dashboard-header">
-            <div class="title">🤖🔗 欢迎使用<span>GEEKROS</span> 机器人开发平台</div>
+            <div class="title">🤖🔗 欢迎使用<span>GEEKROS</span>机器人开发平台</div>
         </div>
         <div class="dashboard-banner">
             <div class="title">✨ 机器人连接人工智能的新体验</div>

@@ -113,9 +113,20 @@ export default defineComponent({
 
         function onResize(){
             let terminal_container_size = getTerminalContainerSize();
-            console.log(terminal_container_size);
             props.app.tools.terminal.conn.resize(terminal_container_size.cols, terminal_container_size.rows);
             props.app.tools.terminal.socket.send(JSON.stringify({ type: "resize", cols: terminal_container_size.cols, rows: terminal_container_size.rows}));
+        }
+
+        function onClose(){
+            if(props.app.tools.terminal.conn){
+                props.app.tools.terminal.conn.dispose();
+                props.app.tools.terminal.conn = false;
+                props.app.tools.terminal.fit = false;
+            }
+            if(props.app.tools.terminal.socket){
+                props.app.tools.terminal.socket.close();
+                props.app.tools.terminal.socket = false;
+            }
         }
 
         function handleFooterResize(event: any){
@@ -158,21 +169,14 @@ export default defineComponent({
         });
 
         onBeforeUnmount(() => {
-            if(props.app.tools.terminal.conn){
-                props.app.tools.terminal.conn.dispose();
-                props.app.tools.terminal.conn = false;
-                props.app.tools.terminal.fit = false;
-            }
-            if(props.app.tools.terminal.socket){
-                props.app.tools.terminal.socket.close();
-                props.app.tools.terminal.socket = false;
-            }
+            onClose();
         });
 
         return {
             props,
             onTag,
             onResize,
+            onClose,
             handleFooterResize,
             terminalContainer
         }

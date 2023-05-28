@@ -60,10 +60,12 @@ export default defineComponent({
                 props.app.tools.chat_hide = !props.app.tools.chat_hide;
                 return;
             }else{
-                if(props.app.tools.select !== type){
-                    props.app.tools.select = type;
-                }else{
-                    props.app.tools.select = "";
+                if(props.app.device.status === "connected"){
+                    if(props.app.tools.select !== type){
+                        props.app.tools.select = type;
+                    }else{
+                        props.app.tools.select = "";
+                    }
                 }
             }
         }

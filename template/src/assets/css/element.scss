@@ -97,7 +97,7 @@
 }
 .el-input.studio .el-input-group__append .el-icon{
     height: 36px !important;
-    font-size: 16px !important;
+    font-size: 14px !important;
 }
 .el-input.studio .el-input-group__append .el-icon:hover{
     cursor: pointer;
@@ -113,6 +113,22 @@
     border: 0 !important;
     box-shadow: none !important;
     padding: 0 10px !important;
+    font-size: 12px !important;
+}
+
+.el-radio-group.studio .el-radio-button .el-radio-button__inner{
+    font-size: 12px !important;
+    background-color: rgba(30, 31, 34, .5) !important;
+    border-color: rgba(30, 31, 34, .5) !important;
+}
+.el-radio-group.studio .el-radio-button .el-radio-button__inner:hover{
+    color: #999999 !important;
+}
+.el-radio-group.studio .el-radio-button.is-active .el-radio-button__inner{
+    background-color: #5e4eff !important;
+    border-color: #5e4eff !important;
+    color: #ffffff !important;
+    box-shadow: none !important;
 }
 
 .el-form.studio .el-form-item__label{
@@ -241,6 +257,7 @@
 }
 
 .el-empty.studio{
+    min-height: 100%;
     padding: 10px !important;
 }
 .el-empty.studio .el-empty__description{
@@ -386,21 +403,30 @@
 }
 .el-popper.select.studio .el-select-dropdown__list{
     width: 100%;
-    padding: 10px !important;
+    padding: 5px !important;
     margin: 0 !important;
 }
 .el-popper.select.studio .el-select-dropdown__list .el-select-dropdown__item{
-    height: auto !important;
-    min-height: 30px !important;
+    height: 32px !important;
+    line-height: 32px !important;
     background-color: rgba(0, 0, 0, 0) !important;
     font-size: 12px !important;
-    padding: 0 !important;
+    padding: 0 10px !important;
+    color: #999999 !important;
+    border-radius: 4px;
+}
+.el-popper.select.studio .el-select-dropdown__list .el-select-dropdown__item:hover{
+    background-color: rgba(0, 0, 0, .1) !important;
+    color: #ffffff !important;
 }
 .el-popper.select.studio .el-select-dropdown__list .el-select-dropdown__item.is-disabled{
     cursor: auto !important;
 }
-.el-popper.select.studio .el-select-dropdown__list .el-select-dropdown__item.selected .select-project-item{
-    background-color: rgba(46, 67, 110, 1) !important;
+.el-popper.select.studio .el-select-dropdown__list .el-select-dropdown__item.selected{
+    background-color: rgba(0, 0, 0, .2) !important;
+}
+.el-popper.select.studio .el-select-dropdown__list .el-select-dropdown__item.selected span{
+    color: #5e4eff !important;
     border-radius: 4px !important;
 }
 .el-popper.select.studio .el-scrollbar{

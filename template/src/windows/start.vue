@@ -25,7 +25,6 @@
 <script lang="ts">
 import {ref, defineComponent, onBeforeMount, onMounted, onBeforeUnmount, onUnmounted, nextTick} from "vue";
 import {ElLoading} from "element-plus";
-import ReWebsocket from "reconnecting-websocket";
 import HeaderCommon from "./common/header.vue";
 import MenuCommon from "./common/menu.vue";
 import ChatCommon from "./common/chat.vue";
@@ -44,39 +43,62 @@ export default defineComponent({
     },
     setup(props, context) {
 
+        const footerCommon = ref(null);
+
         (window as any).runtime.EventsOn("event_message", (message: any) => {
             if(message.type === "connected_device"){
                 if(message.status){
                     props.app.device.ip = localStorage.getItem("chain:device:ip") ? localStorage.getItem("chain:device:ip") : "";
                     props.app.device.password = localStorage.getItem("chain:device:password") ? localStorage.getItem("chain:device:password") : "";
-                    onConnectDeviceService();
+                    onConnectDevice();
                 }else{
-                    props.app.device.ip = "";
-                    props.app.device.status = "not_connected";
-                    if(props.app.device.socket){
-                        props.app.device.socket.close();
-                    }
+                    onCloseDevice();
                 }
+            }
+            if(message.type === "close_device"){
+                onCloseDevice();
             }
         });
 
-        function onConnectDeviceService(){
+        function onConnectDevice(){
             if(!props.app.device.socket){
                 if(props.app.device.ip !== ""){
-                    props.app.device.socket = new ReWebsocket("ws://" + props.app.device.ip + ":10081/message/service", undefined, {maxReconnectionDelay: 500, minReconnectionDelay: 100});
+                    props.app.device.socket = new WebSocket("ws://" + props.app.device.ip + ":10081/message/service", undefined);
+                    console.log(props.app.device.socket);
                     props.app.device.socket.onopen = function () {
                         props.app.device.status = "connected";
+                        props.app.device.socket_time = setInterval(()=>{
+                            props.app.device.socket.send(JSON.stringify({command:"ping"}));
+                        }, 5000);
                     };
                     props.app.device.socket.onmessage = function (message: any) {
                         console.log(message);
                     }
                     props.app.device.socket.onerror = function () {
-                        props.app.device.status = "not_connected";
+                        onCloseDevice();
                     }
                     props.app.device.socket.onclose = function () {
-                        props.app.device.status = "not_connected";
+                        onCloseDevice();
                     }
                 }
+            }
+        }
+
+        function onCloseDevice(){
+            props.app.device.status = "not_connected";
+            if(props.app.tools.select !== ""){
+                props.app.tools.select = "";
+            }
+            if(props.app.device.socket){
+                props.app.device.socket.close();
+                props.app.device.socket = false;
+            }
+            if(props.app.device.socket_time){
+                clearInterval(props.app.device.socket_time);
+                props.app.device.socket_time = false;
+            }
+            if((footerCommon as any).value){
+                (footerCommon as any).value.onClose();
             }
         }
 
@@ -85,7 +107,7 @@ export default defineComponent({
             props.app.return = true;
             props.app.device.ip = localStorage.getItem("chain:device:ip") ? localStorage.getItem("chain:device:ip") : "";
             props.app.device.password = localStorage.getItem("chain:device:password") ? localStorage.getItem("chain:device:password") : "";
-            onConnectDeviceService();
+            props.app.language = localStorage.getItem("chain:settings:language") ? localStorage.getItem("chain:settings:language") : "zh";
         }
 
         onBeforeMount(() => {
@@ -96,7 +118,6 @@ export default defineComponent({
             });
         });
 
-        const footerCommon = ref(null);
         onMounted(() => {
             nextTick(()=>{
                 onInit();

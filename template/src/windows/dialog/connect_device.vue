@@ -3,9 +3,11 @@
         <div class="device-dialog">
             <el-form class="studio" :model="props.app.dialog.form" label-width="80px">
                 <el-form-item label="部署脚本">
-                    <div class="shell">
-                        <div class="shell-cmd">sudo curl -s https://cdn.geekros.com/robotchain/install.sh|bash</div>
-                    </div>
+                    <el-input class="studio" value="sudo curl -s https://cdn.geekros.com/robotchain/install.sh|bash" placeholder="" autocomplete="off" spellcheck="false">
+                        <template #append>
+                            <el-icon @click="onCopy"><DocumentCopy /></el-icon>
+                        </template>
+                    </el-input>
                     <div class="tips">连接前请使用上方的自动化脚本完成RobotChain的部署</div>
                 </el-form-item>
                 <el-form-item label="设备IP地址">
@@ -33,15 +35,33 @@ export default defineComponent({
     components: {},
     setup(props, context) {
 
+        function onCopy(){
+            (window as any).runtime.ClipboardSetText("sudo curl -s https://cdn.geekros.com/robotchain/install.sh|bash");
+            ElMessage({
+                message: "复制成功",
+                type: "success",
+                customClass: "studio"
+            });
+        }
+
         function onConnect(){
             if(props.app.dialog.form.device_ip !== ""){
                 props.app.dialog.form.loading = true;
                 Device(props.app.dialog.form.device_ip, "/ping", "GET", {}, {}).then((res: any)=>{
                     if(res){
-                        localStorage.setItem("chain:device:ip", props.app.dialog.form.device_ip);
-                        localStorage.setItem("chain:device:password", props.app.dialog.form.device_password);
-                        (window as any).runtime.EventsEmit("event_message", {type: "connected_device", status: true});
-                        dialogClose(false);
+                        if(res.data.code === 0) {
+                            localStorage.setItem("chain:device:ip", props.app.dialog.form.device_ip);
+                            localStorage.setItem("chain:device:password", props.app.dialog.form.device_password);
+                            (window as any).runtime.EventsEmit("event_message", {type: "connected_device", status: true});
+                            dialogClose(false);
+                        }else{
+                            props.app.dialog.form.loading = false;
+                            ElMessage({
+                                message: "设备连接失败，请检查后重新尝试",
+                                type: "warning",
+                                customClass: "studio"
+                            });
+                        }
                     }else{
                         props.app.dialog.form.loading = false;
                         (window as any).runtime.EventsEmit("event_message", {type: "connected_device", status: false});
@@ -72,6 +92,7 @@ export default defineComponent({
 
         return {
             props,
+            onCopy,
             onConnect,
             dialogClose
         }

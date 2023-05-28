@@ -20,6 +20,7 @@ export default defineComponent({
                 background: "rgba(0, 0, 0, .01)",
             }),
             return: false,
+            language: "zh",
             menu: {
                 select: "dashboard"
             },
@@ -48,7 +49,11 @@ export default defineComponent({
                 ip: "",
                 password: "",
                 status: "not_connected",
-                socket: false
+                socket: false,
+                socket_time: false
+            },
+            settings: {
+                select: ""
             }
         });
 

@@ -69,6 +69,9 @@
                         <el-icon><Link /></el-icon>
                     </div>
                     <span>{{props.app.device.status === "not_connected" ? "连接设备" : props.app.device.ip}}</span>
+                    <div class="icon close">
+                        <el-icon v-if="props.app.device.status !== 'not_connected'"><Close /></el-icon>
+                    </div>
                 </div>
             </div>
         </div>
@@ -77,12 +80,14 @@
             <div class="header-tools"></div>
         </div>
     </div>
+    <SettingsDialog ref="settingsDialog" :app="props.app" v-if="props.app.dialog.type === 'settings'" />
     <AboutDialog ref="aboutDialog" :app="props.app" v-if="props.app.dialog.type === 'about'" />
     <ConnectDeviceDialog ref="connectDeviceDialog" :app="props.app" v-if="props.app.dialog.type === 'connected_device'" />
 </template>
 
 <script lang="ts">
 import {defineComponent} from "vue";
+import SettingsDialog from "../dialog/settings.vue";
 import AboutDialog from "../dialog/about.vue";
 import ConnectDeviceDialog from "../dialog/connect_device.vue";
 export default defineComponent({
@@ -91,25 +96,35 @@ export default defineComponent({
     emits: [],
     props: ["app"],
     components: {
+        SettingsDialog,
         AboutDialog,
         ConnectDeviceDialog
     },
     setup(props, context) {
 
         function onConnectedDevice(){
-            props.app.dialog.config.title = "连接设备";
-            props.app.dialog.config.width = "580px";
-            props.app.dialog.config.close = true;
-            props.app.dialog.type = "connected_device";
-            props.app.dialog.form = {
-                device_ip: localStorage.getItem("chain:device:ip") ? localStorage.getItem("chain:device:ip") : "",
-                device_password: localStorage.getItem("chain:device:password") ? localStorage.getItem("chain:device:password") : ""
-            };
-            props.app.dialog.status = true;
+            if(props.app.device.status === "not_connected"){
+                props.app.dialog.config.title = "连接设备";
+                props.app.dialog.config.width = "580px";
+                props.app.dialog.config.close = true;
+                props.app.dialog.type = "connected_device";
+                props.app.dialog.form = {
+                    device_ip: localStorage.getItem("chain:device:ip") ? localStorage.getItem("chain:device:ip") : "",
+                    device_password: localStorage.getItem("chain:device:password") ? localStorage.getItem("chain:device:password") : ""
+                };
+                props.app.dialog.status = true;
+            }else{
+                (window as any).runtime.EventsEmit("event_message", {type: "close_device", status: false});
+            }
         }
 
         function onSettings(){
-
+            props.app.settings.select = "language";
+            props.app.dialog.config.title = "系统设置";
+            props.app.dialog.config.width = "800px";
+            props.app.dialog.config.close = true;
+            props.app.dialog.type = "settings";
+            props.app.dialog.status = true;
         }
 
         function onReload(){
@@ -294,16 +309,22 @@ export default defineComponent({
     vertical-align: middle;
     border-radius: 4px;
 }
-.common-header .common-header-item .item.select .link:hover{
-    cursor: pointer;
-}
 .common-header .common-header-item .item.select .link .icon{
-    width: 30px;
+    width: 26px;
     height: 32px;
     line-height: 34px;
     text-align: center;
     display: inline-block;
     vertical-align: top;
+}
+.common-header .common-header-item .item.select .link .icon.close svg{
+    display: none;
+}
+.common-header .common-header-item .item.select .link .icon.close:hover{
+    cursor: pointer;
+}
+.common-header .common-header-item .item.select .link:hover .icon.close svg{
+    display: block;
 }
 .common-header .common-header-item .item.select .link span{
     width: auto;
@@ -311,8 +332,10 @@ export default defineComponent({
     line-height: 32px;
     display: inline-block;
     vertical-align: top;
-    padding-right: 15px;
     color: #999999;
+}
+.common-header .common-header-item .item.select .link span:hover{
+    cursor: pointer;
 }
 .common-header .common-header-item .header-tools{
     width: 100%;

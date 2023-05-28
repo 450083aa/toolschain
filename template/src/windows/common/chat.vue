@@ -1,7 +1,7 @@
 <template>
     <div class="container-chat">
         <div class="chat-main">
-            <div class="chat-message-box">
+            <div class="chat-message-box" v-if="props.app.device.status === 'connected'">
                 <div class="message user">
                     <div class="item">
                         <div class="icon"></div>
@@ -315,6 +315,7 @@
                     </div>
                 </div>
             </div>
+            <el-empty class="studio" description="description" :image-size="30" v-else/>
         </div>
         <div class="chat-footer">
             <el-input ref="a" class="studio none" v-model="chatData.input.value" placeholder="请输入要发送消息或指令" clearable @keyup.enter.native="onSend">
@@ -328,6 +329,7 @@
 
 <script lang="ts">
 import {defineComponent, ref} from "vue";
+import * as icons from "@element-plus/icons";
 export default defineComponent({
     name: "ChatCommon",
     emits: [],
@@ -347,6 +349,7 @@ export default defineComponent({
 
         return {
             props,
+            icons,
             chatData,
             onSend
         }
